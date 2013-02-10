@@ -1,18 +1,9 @@
-[submodule "yasnippet"]
-	path = yasnippet
-	url = https://github.com/capitaomorte/yasnippet
 [submodule "distel"]
 	path = distel
 	url = https://github.com/massemanet/distel.git
 [submodule "flymake-node-jshint"]
 	path = flymake-node-jshint
 	url = https://github.com/jegbjerg/flymake-node-jshint.git
-[submodule "coffee-mode"]
-	path = coffee-mode
-	url = git://github.com/defunkt/coffee-mode.git
-[submodule "handlebars-mode"]
-	path = handlebars-mode
-	url = git://github.com/danielevans/handlebars-mode.git
 [submodule "edts"]
 	path = edts
 	url = git://github.com/tjarvstrand/edts.git

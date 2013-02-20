@@ -1,9 +1,0 @@
-[submodule "distel"]
-	path = vendor/distel
-	url = https://github.com/massemanet/distel.git
-[submodule "flymake-node-jshint"]
-	path = vendor/flymake-node-jshint
-	url = https://github.com/jegbjerg/flymake-node-jshint.git
-[submodule "edts"]
-	path = vendor/edts
-	url = git://github.com/tjarvstrand/edts.git

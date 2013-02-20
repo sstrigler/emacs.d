@@ -4,6 +4,8 @@
   (guru-mode -1))
 (add-hook 'prelude-prog-mode-hook 'disable-guru-mode t)
 
+(require 'auto-complete)
+
 ;; Erlang
 ;; (add-to-list 'load-path "/usr/local/lib/erlang/lib/tools-2.6.8/emacs")
 (setq erlang-root-dir "/usr/local/share")

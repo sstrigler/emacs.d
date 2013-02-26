@@ -4,6 +4,8 @@
   (guru-mode -1))
 (add-hook 'prelude-prog-mode-hook 'disable-guru-mode t)
 
+(setq prelude-whitespace t)
+
 (require 'auto-complete)
 
 ;; Erlang
@@ -11,6 +13,7 @@
 (setq erlang-root-dir "/usr/local/share")
 (setq exec-path (cons "/usr/local/bin" exec-path))
 (require 'erlang-start)
+(require 'erlang-eunit)
 
 ;; Some Erlang customizations
 (add-hook 'erlang-mode-hook
@@ -20,14 +23,13 @@
             ;; add Erlang functions to an imenu menu
             (imenu-add-to-menubar "imenu")))
 
-
 ;; EDTS
 ;; https://github.com/tjarvstrand/edts
-(add-to-list 'load-path "~/.emacs.d/vendor/edts/")
-(require 'edts-start)
+;; (add-to-list 'load-path "~/.emacs.d/vendor/edts/")
+;; (require 'edts-start)
 
+(defvar erlang-compile-extra-opts '((i . \"../include\") (i . \"../../../deps\")))
 (require 'erlang-flymake)
-(defvar erlang-compile-extra-opts '((i . \"../include\") (i . \"../../../deps\"))) ;; "
 
 
 ;; http://www.emacswiki.org/emacs/FlymakeErlang
@@ -40,6 +42,21 @@
 
 (add-to-list 'flymake-allowed-file-name-masks '("\\.erl\\'" flymake-erlang-init))
 
+(defun get-erlang-app-dir ()
+  (let* ((src-path (file-name-directory (buffer-file-name)))
+         (pos (string-match "/src/" src-path)))
+    (if pos
+        (substring src-path 0 (+ 1 pos))
+      src-path)))
+
+(setq erlang-flymake-get-code-path-dirs-function
+      (lambda ()
+        (concat (get-erlang-app-dir) "ebin")))
+
+(setq erlang-flymake-get-code-include-dirs-function
+      (lambda ()
+        (concat (get-erlang-app-dir) "include")))
+
 ;; The default setting is to warn for variables "exported" from case
 ;; expressions etc, which I consider superfluous. You can deactivate
 ;; such warnings with:
@@ -48,32 +65,32 @@
          (delete "+warn_export_vars" erlang-flymake-extra-opts)))
 
 ;; Distel
-;; (let ((distel-dir "~/.emacs.d/distel/elisp"))
-;;   (unless (member distel-dir load-path)
-;;     ;; Add distel-dir to the end of load-path
-;;     (setq load-path (append load-path (list distel-dir)))))
+(let ((distel-dir "~/.emacs.d/vendor/distel/elisp"))
+  (unless (member distel-dir load-path)
+    ;; Add distel-dir to the end of load-path
+    (setq load-path (append load-path (list distel-dir)))))
 
-;; (require 'distel)
-;; (distel-setup)
+(require 'distel)
+(distel-setup)
 
 ;; A number of the erlang-extended-mode key bindings are useful in the shell too
-;; (defconst distel-shell-keys
-;;   '(("\C-\M-i"   erl-complete)
-;;     ("\M-?"      erl-complete)
-;;     ("\M-."      erl-find-source-under-point)
-;;     ("\M-,"      erl-find-source-unwind)
-;;     ("\M-*"      erl-find-source-unwind)
-;;     )
-;;   "Additional keys to bind when in Erlang shell.")
+(defconst distel-shell-keys
+  '(("\C-\M-i"   erl-complete)
+    ("\M-?"      erl-complete)
+    ("\M-."      erl-find-source-under-point)
+    ("\M-,"      erl-find-source-unwind)
+    ("\M-*"      erl-find-source-unwind)
+    )
+  "Additional keys to bind when in Erlang shell.")
 
-;; (add-hook 'erlang-shell-mode-hook
-;;           (lambda ()
-;;             ;; add some Distel bindings to the Erlang shell
-;;             (dolist (spec distel-shell-keys)
-;;               (define-key erlang-(setq)hell-mode-map (car spec) (cadr spec)))))
+(add-hook 'erlang-shell-mode-hook
+          (lambda ()
+            ;; add some Distel bindings to the Erlang shell
+            (dolist (spec distel-shell-keys)
+              (define-key erlang-(setq)hell-mode-map (car spec) (cadr spec)))))
 
 ;; JavaScript
-flymake-node-jshint
+;; flymake-node-jshint
 (add-to-list 'load-path
               "~/.emacs.d/vendor/flymake-node-jshint")
 (require 'flymake-node-jshint)
@@ -143,9 +160,7 @@ it)"
   (set (make-local-variable 'post-command-hook)
        (cons 'show-fly-err-at-point post-command-hook)))
 
-
 ;; XXXXXXXXXXXXXXXXXXXXX
-
 
 (setq mac-option-key-is-meta nil)
 (setq mac-command-key-is-meta t)

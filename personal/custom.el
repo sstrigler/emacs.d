@@ -4,9 +4,27 @@
   (guru-mode -1))
 (add-hook 'prelude-prog-mode-hook 'disable-guru-mode t)
 
-(setq prelude-whitespace t)
+(require 'whitespace)
+(setq whitespace-style '(face empty tabs lines-tail trailing))
+(global-whitespace-mode t)
 
+;; Show line at 80 char
+(require 'fill-column-indicator)
+(setq-default fill-column 80)
+(setq-default fci-rule-width 1)
+(setq-default fci-rule-color "#686868")
+(add-hook 'erlang-mode-hook 'fci-mode)
+(fci-mode)
+
+;; dirty fix for having AC everywhere
+(define-globalized-minor-mode real-global-auto-complete-mode
+  auto-complete-mode (lambda ()
+                       (if (not (minibufferp (current-buffer)))
+                           (auto-complete-mode 1))
+                       ))
+(real-global-auto-complete-mode t)
 (require 'auto-complete)
+
 
 ;; Erlang
 ;; (add-to-list 'load-path "/usr/local/lib/erlang/lib/tools-2.6.8/emacs")

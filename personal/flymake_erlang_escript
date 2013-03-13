@@ -2,43 +2,44 @@
 -export([main/1]).
 
 main([File_Name]) ->
-    DepsDirs = ["../deps", "../../../deps"],
-    
-    {Ebins, Includes} = 
-        lists:foldl(
-          fun(Dir, {EbinsAcc, IncludesAcc}) ->
-                  case filelib:is_dir(Dir) of
-                      false ->
-                          {EbinsAcc, IncludesAcc};
-                      true ->
-                          {ok, Deps} = file:list_dir(Dir),
-                          
-                          lists:foldl(
-                            fun(AppDir, {EbinsAcc1, IncludesAcc1}) ->
-                                    Ebins1 = case filelib:is_dir(Dir++"/"++AppDir++"/ebin") of
-                                                 false ->
-                                                     EbinsAcc1;
-                                                 true ->
-                                                     EbinsAcc1 ++ [Dir++"/"++AppDir++"/ebin"]
-                                             end,
-                                    Includes1 = case filelib:is_dir(Dir++"/"++AppDir++"/include") of
-                                                    false ->
-                                                        IncludesAcc1;
-                                                    true ->
-                                                        IncludesAcc1 ++ [{i, Dir++"/"++AppDir++"/include"}]
-                                                end,
-                                    {Ebins1, Includes1}
-                            end,
-                            {EbinsAcc, IncludesAcc},
-                            Deps)
-                  end
-          end,
-          {[], []},
-          DepsDirs
-         ),
+  DepsDirs = ["../deps", "../../../deps"],
 
-    code:add_paths(Ebins++["../ebin"]),
-    
-    compile:file(File_Name, [warn_obsolete_guard, warn_unused_import,
-                             warn_shadow_vars, warn_export_vars,
-                             strong_validation, report | Includes++[{i,"../include"}]]).
+  {Ebins, Includes} =
+    lists:foldl(
+      fun(Dir, {EbinsAcc, IncludesAcc}) ->
+          case filelib:is_dir(Dir) of
+            false ->
+              io:format("not a dir: ~p~n", [Dir]),
+              {EbinsAcc, IncludesAcc};
+            true ->
+              {ok, Deps} = file:list_dir(Dir),
+
+              lists:foldl(
+                fun(AppDir, {EbinsAcc1, IncludesAcc1}) ->
+                    Ebins1 = case filelib:is_dir(Dir++"/"++AppDir++"/ebin") of
+                               false ->
+                                 EbinsAcc1;
+                               true ->
+                                 EbinsAcc1 ++ [Dir++"/"++AppDir++"/ebin"]
+                             end,
+                    Includes1 = case filelib:is_dir(Dir++"/"++AppDir++"/include") of
+                                  false ->
+                                    IncludesAcc1;
+                                  true ->
+                                    IncludesAcc1 ++ [{i, Dir++"/"++AppDir++"/include"}]
+                                end,
+                    {Ebins1, Includes1}
+                end,
+                {EbinsAcc, IncludesAcc},
+                Deps)
+          end
+      end,
+      {[], []},
+      DepsDirs
+     ),
+
+  code:add_paths(Ebins++["../ebin"]),
+
+  compile:file(File_Name, [warn_obsolete_guard, warn_unused_import,
+                           warn_shadow_vars, warn_export_vars,
+                           strong_validation, report | Includes++[{i,"../include"}]]).

@@ -43,69 +43,69 @@
 
 ;; EDTS
 ;; https://github.com/tjarvstrand/edts
-;; (add-to-list 'load-path "~/.emacs.d/vendor/edts/")
-;; (require 'edts-start)
+(add-to-list 'load-path "~/.emacs.d/vendor/edts/")
+(require 'edts-start)
 
-(defvar erlang-compile-extra-opts '((i . \"../include\") (i . \"../../../deps\")))
-(require 'erlang-flymake)
+;; (defvar erlang-compile-extra-opts '((i . \"../include\") (i . \"../../../deps\")))
+;; (require 'erlang-flymake)
 
 
 ;; http://www.emacswiki.org/emacs/FlymakeErlang
-(defun flymake-erlang-init ()
-  (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                     'flymake-create-temp-inplace))
-         (local-file (file-relative-name temp-file
-                                         (file-name-directory buffer-file-name))))
-    (list "/Users/zeank/.emacs.d/personal/flymake_erlang_escript" (list local-file))))
+;; (defun flymake-erlang-init ()
+;;   (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                      'flymake-create-temp-inplace))
+;;          (local-file (file-relative-name temp-file
+;;                                          (file-name-directory buffer-file-name))))
+;;     (list "/Users/zeank/.emacs.d/personal/flymake_erlang_escript" (list local-file))))
 
-(add-to-list 'flymake-allowed-file-name-masks '("\\.erl\\'" flymake-erlang-init))
+;; (add-to-list 'flymake-allowed-file-name-masks '("\\.erl\\'" flymake-erlang-init))
 
-(defun get-erlang-app-dir ()
-  (let* ((src-path (file-name-directory (buffer-file-name)))
-         (pos (string-match "/src/" src-path)))
-    (if pos
-        (substring src-path 0 (+ 1 pos))
-      src-path)))
+;; (defun get-erlang-app-dir ()
+;;   (let* ((src-path (file-name-directory (buffer-file-name)))
+;;          (pos (string-match "/src/" src-path)))
+;;     (if pos
+;;         (substring src-path 0 (+ 1 pos))
+;;       src-path)))
 
-(setq erlang-flymake-get-code-path-dirs-function
-      (lambda ()
-        (concat (get-erlang-app-dir) "ebin")))
+;; (setq erlang-flymake-get-code-path-dirs-function
+;;       (lambda ()
+;;         (concat (get-erlang-app-dir) "ebin")))
 
-(setq erlang-flymake-get-code-include-dirs-function
-      (lambda ()
-        (concat (get-erlang-app-dir) "include")))
+;; (setq erlang-flymake-get-code-include-dirs-function
+;;       (lambda ()
+;;         (concat (get-erlang-app-dir) "include")))
 
 ;; The default setting is to warn for variables "exported" from case
 ;; expressions etc, which I consider superfluous. You can deactivate
 ;; such warnings with:
-(eval-after-load "erlang-flymake"
-  '(setq erlang-flymake-extra-opts
-         (delete "+warn_export_vars" erlang-flymake-extra-opts)))
+;; (eval-after-load "erlang-flymake"
+;;   '(setq erlang-flymake-extra-opts
+;;          (delete "+warn_export_vars" erlang-flymake-extra-opts)))
 
 ;; Distel
-(let ((distel-dir "~/.emacs.d/vendor/distel/elisp"))
-  (unless (member distel-dir load-path)
-    ;; Add distel-dir to the end of load-path
-    (setq load-path (append load-path (list distel-dir)))))
+;; (let ((distel-dir "~/.emacs.d/vendor/distel/elisp"))
+;;   (unless (member distel-dir load-path)
+;;     ;; Add distel-dir to the end of load-path
+;;     (setq load-path (append load-path (list distel-dir)))))
 
-(require 'distel)
-(distel-setup)
+;; (require 'distel)
+;; (distel-setup)
 
 ;; A number of the erlang-extended-mode key bindings are useful in the shell too
-(defconst distel-shell-keys
-  '(("\C-\M-i"   erl-complete)
-    ("\M-?"      erl-complete)
-    ("\M-."      erl-find-source-under-point)
-    ("\M-,"      erl-find-source-unwind)
-    ("\M-*"      erl-find-source-unwind)
-    )
-  "Additional keys to bind when in Erlang shell.")
+;; (defconst distel-shell-keys
+;;   '(("\C-\M-i"   erl-complete)
+;;     ("\M-?"      erl-complete)
+;;     ("\M-."      erl-find-source-under-point)
+;;     ("\M-,"      erl-find-source-unwind)
+;;     ("\M-*"      erl-find-source-unwind)
+;;     )
+;;   "Additional keys to bind when in Erlang shell.")
 
-(add-hook 'erlang-shell-mode-hook
-          (lambda ()
-            ;; add some Distel bindings to the Erlang shell
-            (dolist (spec distel-shell-keys)
-              (define-key erlang-(setq)hell-mode-map (car spec) (cadr spec)))))
+;; (add-hook 'erlang-shell-mode-hook
+;;           (lambda ()
+;;             ;; add some Distel bindings to the Erlang shell
+;;             (dolist (spec distel-shell-keys)
+;;               (define-key erlang-(setq)hell-mode-map (car spec) (cadr spec)))))
 
 ;; JavaScript
 ;; flymake-node-jshint

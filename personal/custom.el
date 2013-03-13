@@ -43,6 +43,7 @@
 
 ;; EDTS
 ;; https://github.com/tjarvstrand/edts
+(edts-man-set-root "/usr/local/Cellar/erlang/R15B03-1/share/man")
 (add-to-list 'load-path "~/.emacs.d/vendor/edts/")
 (require 'edts-start)
 

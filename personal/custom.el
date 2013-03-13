@@ -43,9 +43,9 @@
 
 ;; EDTS
 ;; https://github.com/tjarvstrand/edts
-(edts-man-set-root "/usr/local/Cellar/erlang/R15B03-1/share/man")
 (add-to-list 'load-path "~/.emacs.d/vendor/edts/")
 (require 'edts-start)
+(edts-man-set-root "/usr/local/Cellar/erlang/R15B03-1/share/man")
 
 ;; (defvar erlang-compile-extra-opts '((i . \"../include\") (i . \"../../../deps\")))
 ;; (require 'erlang-flymake)
@@ -154,30 +154,30 @@
 
 ;; Make flymake display errors at minibuffer
 ;; http://stackoverflow.com/questions/5726988/flymake-complains-x-is-not-available-even-when-configured-not-to-use-x
-(defun show-fly-err-at-point ()
-  "If the cursor is sitting on a flymake error, display the message in the minibuffer"
-  (interactive)
-  (let ((line-no (line-number-at-pos)))
-    (dolist (elem flymake-err-info)
-      (if (eq (car elem) line-no)
-          (let ((err (car (second elem))))
-            (message "%s" (flymake-ler-text err)))))))
+;; (defun show-fly-err-at-point ()
+;;   "If the cursor is sitting on a flymake error, display the message in the minibuffer"
+;;   (interactive)
+;;   (let ((line-no (line-number-at-pos)))
+;;     (dolist (elem flymake-err-info)
+;;       (if (eq (car elem) line-no)
+;;           (let ((err (car (second elem))))
+;;             (message "%s" (flymake-ler-text err)))))))
 
-(defadvice flymake-goto-next-error (after display-message activate compile)
-  "Display the error in the mini-buffer rather than having to mouse over it"
-  (show-fly-err-at-point))
+;; (defadvice flymake-goto-next-error (after display-message activate compile)
+;;   "Display the error in the mini-buffer rather than having to mouse over it"
+;;   (show-fly-err-at-point))
 
-(defadvice flymake-goto-prev-error (after display-message activate compile)
-  "Display the error in the mini-buffer rather than having to mouse over it"
-  (show-fly-err-at-point))
+;; (defadvice flymake-goto-prev-error (after display-message activate compile)
+;;   "Display the error in the mini-buffer rather than having to mouse over it"
+;;   (show-fly-err-at-point))
 
-(defadvice flymake-mode (before post-command-stuff activate compile)
-  "Add functionality to the post command hook so that if the
-cursor is sitting on a flymake error the error information is
-displayed in the minibuffer (rather than having to mouse over
-it)"
-  (set (make-local-variable 'post-command-hook)
-       (cons 'show-fly-err-at-point post-command-hook)))
+;; (defadvice flymake-mode (before post-command-stuff activate compile)
+;;   "Add functionality to the post command hook so that if the
+;; cursor is sitting on a flymake error the error information is
+;; displayed in the minibuffer (rather than having to mouse over
+;; it)"
+;;   (set (make-local-variable 'post-command-hook)
+;;        (cons 'show-fly-err-at-point post-command-hook)))
 
 ;; XXXXXXXXXXXXXXXXXXXXX
 

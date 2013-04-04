@@ -1,8 +1,10 @@
 (setq user-mail-address "stefan.strigler@erlang-solutions.com")
 
-(defun disable-guru-mode ()
-  (guru-mode -1))
-(add-hook 'prelude-prog-mode-hook 'disable-guru-mode t)
+(setq prelude-guru nil)
+
+;; (defun disable-guru-mode ()
+;;   (guru-mode -1))
+;; (add-hook 'prelude-prog-mode-hook 'disable-guru-mode t)
 
 (require 'whitespace)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
@@ -18,12 +20,14 @@
 
 ;; dirty fix for having AC everywhere
 ;;(define-globalized-minor-mode real-global-auto-complete-mode
-;;  auto-complete-mode (lambda ()
-;;                       (if (not (minibufferp (current-buffer)))
-;;                           (auto-complete-mode 1))
-;;                       ))
+;; auto-complete-mode (lambda ()
+;;                      (if (not (minibufferp (current-buffer)))
+;;                          (auto-complete-mode 1))
+;;                      ))
 ;;(real-global-auto-complete-mode t)
-;;(require 'auto-complete)
+(require 'auto-complete)
+
+(setq prelude-flyspell nil)
 
 
 ;; Erlang

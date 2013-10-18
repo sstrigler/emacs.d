@@ -49,7 +49,7 @@
 ;; https://github.com/tjarvstrand/edts
 (add-to-list 'load-path "~/.emacs.d/vendor/edts/")
 (require 'edts-start)
-(edts-man-set-root "/usr/local/Cellar/erlang/R15B03-1/share/man")
+;;(edts-man-set-root "/usr/local/Cellar/erlang/R15B03-1/share")
 
 ;; (defvar erlang-compile-extra-opts '((i . \"../include\") (i . \"../../../deps\")))
 ;; (require 'erlang-flymake)

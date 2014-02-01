@@ -12,6 +12,51 @@ Prelude is compatible **ONLY with GNU Emacs 24.x**. In general you're
 advised to always run Prelude with the latest Emacs - currently
 **24.3**.
 
+**Table of Contents**
+
+- [Fast Forward](#fast-forward)
+- [Installing Emacs 24](#installing-emacs-24)
+- [Installation](#installation)
+	- [Automated](#automated)
+		- [Via Curl](#via-curl)
+		- [Via Wget](#via-wget)
+	- [Manual](#manual)
+- [Updating Prelude](#updating-prelude)
+	- [Manual update](#manual-update)
+		- [Update all bundled packages](#update-all-bundled-packages)
+		- [Update Prelude's code](#update-preludes-code)
+		- [Restart Prelude](#restart-prelude)
+	- [Automatic update](#automatic-update)
+- [Enabling additional modules](#enabling-additional-modules)
+- [Running](#running)
+- [Getting to know Prelude](#getting-to-know-prelude)
+	- [Keymap](#keymap)
+		- [Global](#global)
+		- [Prelude Mode](#prelude-mode)
+		- [OSX modifier keys](#osx-modifier-keys)
+		- [Projectile](#projectile)
+		- [Key-chords](#key-chords)
+			- [Disabling key-chords](#disabling-key-chords)
+- [Automatic package installation](#automatic-package-installation)
+	- [Color Themes](#color-themes)
+	- [Personalizing](#personalizing)
+		- [Disabling whitespace-mode](#disabling-whitespace-mode)
+		- [Disable flyspell-mode](#disable-flyspell-mode)
+- [Caveats & Pitfalls](#caveats--pitfalls)
+	- [Updating bundled packages](#updating-bundled-packages)
+	- [Problems with flyspell-mode](#problems-with-flyspell-mode)
+	- [Ugly colors in the terminal Emacs version](#ugly-colors-in-the-terminal-emacs-version)
+	- [MELPA error on initial startup](#melpa-error-on-initial-startup)
+	- [No arrow navigation in editor buffers](#no-arrow-navigation-in-editor-buffers)
+	- [Customized C-a behavior](#customized-c-a-behavior)
+	- [Poor ido matching performance on large datasets](#poor-ido-matching-performance-on-large-datasets)
+	- [Windows compatibility](#windows-compatibility)
+- [Share the knowledge](#share-the-knowledge)
+- [Known issues](#known-issues)
+- [Support](#support)
+- [Contributors](#contributors)
+- [Bugs & Improvements](#bugs--improvements)
+
 ## Fast Forward
 
 Assuming you're using an Unix-like OS (`*BSD`, `GNU/Linux`, `OS X`, `Solaris`,
@@ -90,13 +135,15 @@ You'd do well to replace `~/.emacs.d` with the value of
 
 ## Updating Prelude
 
+### Manual update
+
 The update procedure is fairly straightforward and consists of 3 steps:
 
-### Update all bundled packages
+#### Update all bundled packages
 
-Just run <kbd>M-x package-list-packages RET U x</kbd>. Unfortunately this step cannot be automated.
+Just run <kbd>M-x package-list-packages RET U x</kbd>.
 
-### Update Prelude's code
+#### Update Prelude's code
 
 ```bash
 cd path/to/prelude/installation
@@ -106,13 +153,15 @@ git pull
 The `path/to/prelude/installation` is usually `~/.emacs.d` (at least
 on Unix systems).
 
-Alternatively you can run <kbd>M-x prelude-update</kbd> from Emacs itself.
-
-### Restart Prelude
+#### Restart Prelude
 
 It's generally a good idea to stop Emacs after you do the update. The
 next time Prelude starts it will install any new dependencies (if
 there are such).
+
+### Automatic update
+
+Simply run <kbd>M-x prelude-update</kbd> from Emacs itself and restart Emacs afterwards.
 
 ## Enabling additional modules
 
@@ -176,10 +225,10 @@ You'd probably do well to put a few aliases in your `.zshrc` (or
 `.bashrc`):
 
 ```bash
-alias e=emacsclient -t
-alias ec=emacsclient -c
-alias vim=emacsclient -t
-alias vi=emacsclient -t
+alias e='emacsclient -t'
+alias ec='emacsclient -c'
+alias vim='emacsclient -t'
+alias vi='emacsclient -t'
 ```
 
 The last two aliases are helpful if you're used to editing files from
@@ -229,8 +278,8 @@ Keybinding         | Description
 <kbd>C-c g</kbd>   | Search in Google for the thing under point (or an interactive query).
 <kbd>C-c G</kbd>   | Search in GitHub for the thing under point (or an interactive query).
 <kbd>C-c y</kbd>   | Search in YouTube for the thing under point (or an interactive query).
-<kbd>C-S-RET</kbd> or <kbd>M-o</kbd> | Insert an empty line above the current line and indent it properly
-<kbd>S-RET</kbd> or <kbd>M-O</kbd> | Insert an empty line and indent it properly (as in most IDEs).
+<kbd>C-S-RET</kbd> or <kbd>Super-o</kbd> | Insert an empty line above the current line and indent it properly.
+<kbd>S-RET</kbd> or <kbd>M-o</kbd> | Insert an empty line and indent it properly (as in most IDEs).
 <kbd>C-S-up</kbd> or <kbd>M-S-up</kbd> | Move the current line or region up.
 <kbd>C-S-down</kbd> or <kbd>M-S-down</kbd>| Move the current line or region down.
 <kbd>C-c n</kbd> | Fix indentation in buffer and strip whitespace.
@@ -244,7 +293,7 @@ Keybinding         | Description
 <kbd>C-c r</kbd> | Rename the currently visited file and buffer.
 <kbd>C-c t</kbd> | Open a terminal emulator (`ansi-term`).
 <kbd>C-c k</kbd> | Kill all open buffers except the one you're currently in.
-<kbd>C-c h</kbd> | Open Helm (a useful means of navigating your buffers and project files).
+<kbd>C-c h</kbd> | Open Helm (available if you've enabled the `prelude-helm` module).
 <kbd>C-c +</kbd> | Increment integer at point.
 <kbd>C-c -</kbd> | Decrement integer at point.
 <kbd>Super-r</kbd> | Recent files
@@ -255,7 +304,6 @@ Keybinding         | Description
 <kbd>Super-m l</kbd> | Magit log
 <kbd>Super-m f</kbd> | Magit file log
 <kbd>Super-m b</kbd> | Magit blame mode
-<kbd>Super-o</kbd> | Open line above current line
 
 #### OSX modifier keys
 
@@ -309,6 +357,8 @@ If you ever forget any of Projectile's keybindings just do a:
 
 #### Key-chords
 
+**Key-chords are available only when the `prelude-key-chord` module has been enabled.**
+
 Keybinding         | Description
 -------------------|----------------------------------------------
 <kbd>jj</kbd>      | Jump to the beginning of a word(`ace-jump-word-mode`)
@@ -316,6 +366,8 @@ Keybinding         | Description
 <kbd>jl</kbd>      | Jump to the beginning of a line(`ace-jump-line-mode`)
 <kbd>JJ</kbd>      | Jump back to previous buffer(`prelude-switch-to-previous-buffer`)
 <kbd>uu</kbd>      | View edits as a tree(`undo-tree-visualize`)
+<kbd>xx</kbd>      | Executed extended command(`execute-extended-command`)
+<kbd>yy</kbd>      | Browse the kill ring(`browse-kill-ring`)
 
 ##### Disabling key-chords
 
@@ -339,7 +391,7 @@ If you're an `evil-mode` user you'll probably do well to disable `key-chord-mode
 The default Prelude installation comes with a bare minimum of
 functionality. It will however install add-ons for various programming
 languages and frameworks on demand. For instance - if you try to open
-a `.clj` file `clojure-mode`, `nrepl.el` and prelude's enhanced Lisp
+a `.clj` file `clojure-mode`, `cider` and Prelude's enhanced Lisp
 configuration will be installed automatically for you.
 
 You can, of course, install anything you wish manually as well.
@@ -393,6 +445,12 @@ If you require just a single package you can also use:
 (prelude-require-package 'some-package)
 ```
 
+#### Preloading personal config
+
+Sometimes you might want to load code before Prelude has started loading. Prelude will automatically preload all
+Emacs Lisp files in your `personal/preload` directory. Note that at this point you can't using anything from
+Prelude, except a few variables like `prelude-dir`, etc (since nothing is yet loaded).
+
 #### Disabling whitespace-mode
 
 Although `whitespace-mode` is awesome some people might find it too
@@ -428,16 +486,17 @@ If you're not fond of spellchecking on the fly:
 
 ### Updating bundled packages
 
-Currently there is no Emacs Lisp API for updating packages, so you'll
-have to update manually the packages that came with Prelude from time
-to time.
+Generally it's a good idea to do a package update before running
+updating Prelude, since the latest Prelude code might depend on newer
+versions of the bundled packages than you would currently have
+installed.
+
+If you're doing manual Prelude updates you should always do a package update first.
 
 `M-x package-list-packages RET U x`
 
-Generally it's a good idea to do a package update before running
-`prelude-update`, since the latest Prelude code might depend on newer
-versions of the bundled packages than you would currently have
-installed.
+That's not necessary if you're using `M-x prelude-update`, since it
+will automatically update the installed packages.
 
 ### Problems with flyspell-mode
 
@@ -475,13 +534,18 @@ afterwards.
 This is not a bug - it's a feature! I firmly believe that the one true
 way to use Emacs is by using it the way it was intended to be used (as
 far as navigation is concerned at least). That's why I've disabled all
-movement commands with arrows (and keys like page up, page down, etc) - to prevent you from being tempted to
-use them.
+movement commands with arrows (and keys like page up, page down,
+etc) - to prevent you from being tempted to use them.
 
-If you'd still like to use the arrow keys just invoke `M-x
-guru-mode` to enable them for the duration of your
-current Emacs session or add the following snippet to your
-personal Emacs customization to enable them permanently:
+If you'd like to be able to use the arrow keys (but still be reminded of
+the alternatives) put this in your personal config:
+
+```lisp
+(setq guru-warn-only t)
+```
+
+To disable `guru-mode` completely add the following snippet to your
+personal Emacs config:
 
 ```lisp
 (setq prelude-guru nil)
@@ -526,12 +590,10 @@ time. This situation will probably improve over time.
 
 ## Share the knowledge
 
-[WikEmacs](http://wikemacs.org) collects useful resources for working
+[EmacsWiki](http://emacswiki.org) collects useful resources for working
 with GNU Emacs. Please, take the time to peruse and improve them as
 you accumulate knowledge about Emacs. Prelude makes this especially
 easy, since it bundles
-[MediaWiki support](http://wikemacs.org/wiki/Mediawiki.el) + the
-settings required to access WikEmacs right away.
 
 ## Known issues
 

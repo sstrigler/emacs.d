@@ -33,7 +33,7 @@
 ;;; Code:
 
 (require 'prelude-lisp)
-(prelude-ensure-module-deps '(clojure-mode clojure-test-mode cider))
+(prelude-require-packages '(clojure-mode clojure-test-mode cider))
 
 (eval-after-load 'clojure-mode
   '(progn
@@ -49,9 +49,9 @@
 
 (eval-after-load 'cider
   '(progn
-     (add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode)
+     (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
 
-     (defun prelude-cider-mode-defaults ()
+     (defun prelude-cider-repl-mode-defaults ()
        (subword-mode +1)
        (run-hooks 'prelude-interactive-lisp-coding-hook))
 

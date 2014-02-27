@@ -52,20 +52,27 @@
 
 ;; JavaScript
 ;; flymake-node-jshint
-(add-to-list 'load-path
-              "~/.emacs.d/vendor/flymake-node-jshint")
-(require 'flymake-node-jshint)
-(add-hook 'js-mode-hook (lambda () (flymake-mode 1)))
+;; (add-to-list 'load-path
+;;               "~/.emacs.d/vendor/flymake-node-jshint")
+;; (require 'flymake-node-jshint)
+;; (add-hook 'js-mode-hook (lambda () (flymake-mode 1)))
+
+;; jade-mode
+(add-to-list 'load-path "~/.emacs.d/vendor/jade-mode")
+(require 'sws-mode)
+(require 'jade-mode)
+(add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
+(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
 
 (setq mac-option-key-is-meta nil)
 (setq mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier nil)
 
-(setq split-height-threshold nil)
-(setq split-width-threshold 0)
+;; (setq split-height-threshold nil)
+;; (setq split-width-threshold 0)
 
-;(set-face-attribute 'default nil :height 100)
+(set-face-attribute 'default nil :height 100)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

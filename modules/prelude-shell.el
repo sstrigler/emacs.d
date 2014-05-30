@@ -1,6 +1,6 @@
-;;; prelude-c.el --- Emacs Prelude: cc-mode configuration.
+;;; prelude-shell.el --- Emacs Prelude: sh-mode configuration.
 ;;
-;; Copyright © 2011-2013 Bozhidar Batsov
+;; Copyright © 2011-2014 Bozhidar Batsov
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/prelude
@@ -32,27 +32,20 @@
 
 ;;; Code:
 
-(require 'prelude-programming)
+(require 'sh-script)
 
-(defun prelude-c-mode-common-defaults ()
-  (setq c-basic-offset 4)
-  (c-set-offset 'substatement-open 0))
+;; recognize pretzo files as zsh scripts
+(defvar prelude-pretzo-files '("zlogin" "zlogin" "zlogout" "zpretzorc" "zprofile" "zshenv" "zshrc"))
 
-(setq prelude-c-mode-common-hook 'prelude-c-mode-common-defaults)
+(mapc (lambda (file)
+        (add-to-list 'auto-mode-alist `(,(format "\\%s\\'" file) . sh-mode)))
+      prelude-pretzo-files)
 
-;; this will affect all modes derived from cc-mode, like
-;; java-mode, php-mode, etc
-(add-hook 'c-mode-common-hook (lambda ()
-                                (run-hooks 'prelude-c-mode-common-hook)))
+(add-hook 'sh-mode-hook
+          (lambda ()
+            (if (and buffer-file-name
+                     (member (file-name-nondirectory buffer-file-name) prelude-pretzo-files))
+                (sh-set-shell "zsh"))))
 
-(defun prelude-makefile-mode-defaults ()
-  (whitespace-toggle-options '(tabs))
-  (setq indent-tabs-mode t ))
-
-(setq prelude-makefile-mode-hook 'prelude-makefile-mode-defaults)
-
-(add-hook 'makefile-mode-hook (lambda ()
-                                (run-hooks 'prelude-makefile-mode-hook)))
-(provide 'prelude-c)
-
-;;; prelude-c.el ends here
+(provide 'prelude-shell)
+;;; prelude-shell.el ends here

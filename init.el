@@ -39,7 +39,10 @@
 (message "Prelude is powering up... Be patient, Master %s!" current-user)
 
 (when (version< emacs-version "24.1")
-  (error "Prelude requires at least GNU Emacs 24.1"))
+  (error "Prelude requires at least GNU Emacs 24.1, but you're running %s" emacs-version))
+
+;; Always load newest byte code
+(setq load-prefer-newer t)
 
 (defvar prelude-dir (file-name-directory load-file-name)
   "The root dir of the Emacs Prelude distribution.")
@@ -70,8 +73,7 @@ by Prelude.")
  (dolist (f (directory-files parent-dir))
    (let ((name (expand-file-name f parent-dir)))
      (when (and (file-directory-p name)
-                (not (equal f ".."))
-                (not (equal f ".")))
+                (not (string-prefix-p "." f)))
        (add-to-list 'load-path name)
        (prelude-add-subfolders-to-load-path name)))))
 
@@ -85,6 +87,9 @@ by Prelude.")
 ;; each 50MB of allocated data (the default is on every 0.76MB)
 (setq gc-cons-threshold 50000000)
 
+;; warn when opening files bigger than 100MB
+(setq large-file-warning-threshold 100000000)
+
 ;; preload the personal settings from `prelude-personal-preload-dir'
 (when (file-exists-p prelude-personal-preload-dir)
   (message "Loading personal configuration files in %s..." prelude-personal-preload-dir)
@@ -95,6 +100,7 @@ by Prelude.")
 ;; the core stuff
 (require 'prelude-packages)
 (require 'prelude-ui)
+(require 'prelude-custom)  ;; Needs to be loaded before core and editor
 (require 'prelude-core)
 (require 'prelude-mode)
 (require 'prelude-editor)

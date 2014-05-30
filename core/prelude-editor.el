@@ -32,38 +32,6 @@
 
 ;;; Code:
 
-;; customize
-(defgroup prelude nil
-  "Emacs Prelude configuration."
-  :prefix "prelude-"
-  :group 'convenience)
-
-(defcustom prelude-auto-save t
-  "Non-nil values enable Prelude's auto save."
-  :type 'boolean
-  :group 'prelude)
-
-(defcustom prelude-guru t
-  "Non-nil values enable guru-mode."
-  :type 'boolean
-  :group 'prelude)
-
-(defcustom prelude-whitespace t
-  "Non-nil values enable Prelude's whitespace visualization."
-  :type 'boolean
-  :group 'prelude)
-
-(defcustom prelude-clean-whitespace-on-save t
-  "Cleanup whitespace from file before it's saved.
-Will only occur if prelude-whitespace is also enabled."
-  :type 'boolean
-  :group 'prelude)
-
-(defcustom prelude-flyspell t
-  "Non-nil values enable Prelude's flyspell support."
-  :type 'boolean
-  :group 'prelude)
-
 ;; Death to the tabs!  However, tabs historically indent to the next
 ;; 8-character offset; specifying anything else will cause *mass*
 ;; confusion, as it will change the appearance of every existing file.
@@ -76,6 +44,9 @@ Will only occur if prelude-whitespace is also enabled."
 ;; meaning) of any files you load.
 (setq-default indent-tabs-mode nil)   ;; don't use tabs to indent
 (setq-default tab-width 8)            ;; but maintain correct appearance
+
+;; Newline at end of file
+(setq require-final-newline t)
 
 ;; delete the selection with a keypress
 (delete-selection-mode t)
@@ -152,7 +123,22 @@ Will only occur if prelude-whitespace is also enabled."
 (require 'recentf)
 (setq recentf-save-file (expand-file-name "recentf" prelude-savefile-dir)
       recentf-max-saved-items 500
-      recentf-max-menu-items 15)
+      recentf-max-menu-items 15
+      ;; disable recentf-cleanup on Emacs start, because it can cause
+      ;; problems with remote files
+      recentf-auto-cleanup 'never)
+
+(defun prelude-recentf-exclude-p (file)
+  "A predicate to decide whether to exclude FILE from recentf."
+  (let ((file-dir (file-truename (file-name-directory file))))
+    (-any-p (lambda (dir)
+              (string-prefix-p dir file-dir))
+            (mapcar 'file-truename (list prelude-savefile-dir package-user-dir)))))
+
+(add-to-list 'recentf-exclude 'prelude-recentf-exclude-p)
+;; ignore magit's commit message files
+(add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+
 (recentf-mode +1)
 
 ;; use shift + arrow keys to switch between visible buffers
@@ -186,29 +172,20 @@ The body of the advice is in BODY."
 
 (add-hook 'mouse-leave-buffer-hook 'prelude-auto-save-command)
 
+;; Autosave buffers when focus is lost
+(defun prelude-save-all-buffers ()
+  "Save all modified buffers, without prompts."
+  (save-some-buffers 'dont-ask))
+
+(when (version<= "24.4" emacs-version)
+  (add-hook 'focus-out-hook 'prelude-save-all-buffers))
+
 ;; highlight the current line
 (global-hl-line-mode +1)
 
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 (diminish 'volatile-highlights-mode)
-
-;; note - this should be after volatile-highlights is required
-;; add the ability to copy and cut the current line, without marking it
-(defadvice kill-ring-save (before smart-copy activate compile)
-  "When called interactively with no active region, copy a single line instead."
-  (interactive
-   (if mark-active (list (region-beginning) (region-end))
-     (message "Copied line")
-     (list (line-beginning-position)
-           (line-end-position)))))
-
-(defadvice kill-region (before smart-cut activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-   (if mark-active (list (region-beginning) (region-end))
-     (list (line-beginning-position)
-           (line-beginning-position 2)))))
 
 ;; tramp, for sudo access
 (require 'tramp)
@@ -265,7 +242,6 @@ The body of the advice is in BODY."
 (require 'projectile)
 (setq projectile-cache-file (expand-file-name  "projectile.cache" prelude-savefile-dir))
 (projectile-global-mode t)
-(diminish 'projectile-mode "Prjl")
 
 ;; anzu-mode enhances isearch by showing total matches and current match position
 (require 'anzu)
@@ -330,7 +306,7 @@ indent yanked text (with prefix arg don't indent)."
            (or (derived-mode-p 'prog-mode)
                (member major-mode yank-indent-modes)))
       (let ((transient-mark-mode nil))
-    (yank-advised-indent-function (region-beginning) (region-end)))))
+        (yank-advised-indent-function (region-beginning) (region-end)))))
 
 (defadvice yank-pop (after yank-pop-indent activate)
   "If current mode is one of `yank-indent-modes',
@@ -367,6 +343,28 @@ indent yanked text (with prefix arg don't indent)."
 (setq semanticdb-default-save-directory
       (expand-file-name "semanticdb" prelude-savefile-dir))
 
+;; Compilation from Emacs
+(defun prelude-colorize-compilation-buffer ()
+  "Colorize a compilation mode buffer."
+  (interactive)
+  ;; we don't want to mess with child modes such as grep-mode, ack, ag, etc
+  (when (eq major-mode 'compilation-mode)
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region (point-min) (point-max)))))
+
+(require 'compile)
+(setq compilation-ask-about-save nil  ; Just save before compiling
+      compilation-always-kill t       ; Just kill old compile processes before
+                                        ; starting the new one
+      compilation-scroll-output 'first-error ; Automatically scroll to first
+                                        ; error
+      )
+
+;; Colorize output of Compilation Mode, see
+;; http://stackoverflow.com/a/3072831/355252
+(require 'ansi-color)
+(add-hook 'compilation-filter-hook #'prelude-colorize-compilation-buffer)
+
 ;; enable Prelude's keybindings
 (prelude-global-mode t)
 
@@ -376,6 +374,29 @@ indent yanked text (with prefix arg don't indent)."
 
 ;; enable winner-mode to manage window configurations
 (winner-mode +1)
+
+;; diff-hl
+(global-diff-hl-mode +1)
+(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
+
+;; easy-kill
+(global-set-key [remap kill-ring-save] 'easy-kill)
+(global-set-key [remap mark-sexp] 'easy-mark)
+
+;; operate-on-number
+(require 'operate-on-number)
+(smartrep-define-key global-map "C-c ."
+  '(("+" . apply-operation-to-number-at-point)
+    ("-" . apply-operation-to-number-at-point)
+    ("*" . apply-operation-to-number-at-point)
+    ("/" . apply-operation-to-number-at-point)
+    ("\\" . apply-operation-to-number-at-point)
+    ("^" . apply-operation-to-number-at-point)
+    ("<" . apply-operation-to-number-at-point)
+    (">" . apply-operation-to-number-at-point)
+    ("#" . apply-operation-to-number-at-point)
+    ("%" . apply-operation-to-number-at-point)
+    ("'" . operate-on-number-at-point)))
 
 (provide 'prelude-editor)
 

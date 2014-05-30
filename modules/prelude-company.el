@@ -1,6 +1,6 @@
-;;; prelude-c.el --- Emacs Prelude: cc-mode configuration.
+;;; prelude-company.el --- company-mode setup
 ;;
-;; Copyright © 2011-2013 Bozhidar Batsov
+;; Copyright © 2011-2014 Bozhidar Batsov
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/prelude
@@ -11,7 +11,7 @@
 
 ;;; Commentary:
 
-;; Some basic configuration for cc-mode and the modes derived from it.
+;; company-mode config.
 
 ;;; License:
 
@@ -31,28 +31,15 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Code:
+(prelude-require-packages '(company))
 
-(require 'prelude-programming)
+(require 'company)
 
-(defun prelude-c-mode-common-defaults ()
-  (setq c-basic-offset 4)
-  (c-set-offset 'substatement-open 0))
+(setq company-idle-delay 0.5)
+(setq company-tooltip-limit 10)
+(setq company-minimum-prefix-length 2)
 
-(setq prelude-c-mode-common-hook 'prelude-c-mode-common-defaults)
+(global-company-mode 1)
 
-;; this will affect all modes derived from cc-mode, like
-;; java-mode, php-mode, etc
-(add-hook 'c-mode-common-hook (lambda ()
-                                (run-hooks 'prelude-c-mode-common-hook)))
-
-(defun prelude-makefile-mode-defaults ()
-  (whitespace-toggle-options '(tabs))
-  (setq indent-tabs-mode t ))
-
-(setq prelude-makefile-mode-hook 'prelude-makefile-mode-defaults)
-
-(add-hook 'makefile-mode-hook (lambda ()
-                                (run-hooks 'prelude-makefile-mode-hook)))
-(provide 'prelude-c)
-
-;;; prelude-c.el ends here
+(provide 'prelude-company)
+;;; prelude-company.el ends here

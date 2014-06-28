@@ -72,7 +72,7 @@
 ;; (setq split-height-threshold nil)
 ;; (setq split-width-threshold 0)
 
-(set-face-attribute 'default nil :height 100)
+;;(set-face-attribute 'default nil :height 100)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

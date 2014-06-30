@@ -21,3 +21,5 @@ session*
 /ac-comphist.dat
 tramp
 /var/pcache
+edts/*
+!edts/doc

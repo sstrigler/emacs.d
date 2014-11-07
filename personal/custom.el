@@ -25,7 +25,7 @@
 ;;                          (auto-complete-mode 1))
 ;;                      ))
 ;;(real-global-auto-complete-mode t)
-(require 'auto-complete)
+;;(require 'auto-complete)
 
 (setq prelude-flyspell nil)
 
@@ -46,23 +46,12 @@
 
 ;; EDTS
 ;; https://github.com/tjarvstrand/edts
-(add-to-list 'load-path "~/.emacs.d/vendor/edts/")
-(require 'edts-start)
-;;(edts-man-set-root "/usr/local/Cellar/erlang/R15B03-1/share")
 
-;; JavaScript
-;; flymake-node-jshint
-;; (add-to-list 'load-path
-;;               "~/.emacs.d/vendor/flymake-node-jshint")
-;; (require 'flymake-node-jshint)
-;; (add-hook 'js-mode-hook (lambda () (flymake-mode 1)))
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 
-;; jade-mode
-(add-to-list 'load-path "~/.emacs.d/vendor/jade-mode")
-(require 'sws-mode)
-(require 'jade-mode)
-(add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
-(add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
+(add-hook 'after-init-hook 'edts-after-init-hook)
+(defun edts-after-init-hook ()
+   (require 'edts-start))
 
 (setq mac-option-key-is-meta nil)
 (setq mac-command-key-is-meta t)
@@ -74,6 +63,10 @@
 
 ;;(set-face-attribute 'default nil :height 100)
 
+
+(setq erlang-indent-level 2)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -82,7 +75,7 @@
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(cua-mode t nil (cua-base))
- '(edts-man-root "/Users/sstrigler/.emacs.d/edts/doc/17.1")
+ '(edts-man-root "/Users/sstrigler/.emacs.d/edts/doc/17.3")
  '(indent-tabs-mode nil)
  '(menu-bar-mode nil)
  '(show-paren-mode t)

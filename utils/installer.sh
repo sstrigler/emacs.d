@@ -15,8 +15,6 @@ install_prelude () {
 
 make_prelude_dirs () {
     printf " Making the required directories.\n$RESET"
-    mkdir -p "$PRELUDE_INSTALL_DIR/vendor" "$PRELUDE_INSTALL_DIR/personal"
-    mkdir -p "$PRELUDE_INSTALL_DIR/themes"
     mkdir -p "$PRELUDE_INSTALL_DIR/savefile"
 }
 
@@ -78,7 +76,7 @@ usage() {
     printf "  -s, --source [url] \t \t Clone prelude from 'url'.\n"
     printf "  \t \t \t \t Defaults to 'https://github.com/bbatsov/prelude.git'.\n"
     printf "  -n, --no-bytecompile \t \t Skip the bytecompilation step of prelude.\n"
-    printf "  -i, --into \t \t \t Install Prelude into the existing configuration\n"
+    printf "  -i, --into \t \t \t Install Prelude into a subdirectory in the existing configuration\n"
     printf "  \t \t \t \t The default behavious is to install prelude into the existing\n"
     printf "  \t \t \t \t emacs configuration.\n"
     printf "  -h, --help \t \t \t Display this help and exit\n"
@@ -149,7 +147,7 @@ then
 fi
 
 # If prelude is already installed
-if [ -d "$PRELUDE_INSTALL_DIR/core/prelude-core.el" ]
+if [ -f "$PRELUDE_INSTALL_DIR/core/prelude-core.el" ]
 then
     printf "\n\n$BRED"
     printf "You already have Prelude installed.$RESET\nYou'll need to remove $PRELUDE_INSTALL_DIR/prelude if you want to install Prelude again.\n"
@@ -175,14 +173,6 @@ else
     printf "$RED not found. Install aspell to benefit from flyspell-mode!$RESET\n"
 fi
 
-printf  "$CYAN Checking to see if ack is installed... "
-if hash ack 2>&- || hash ack-grep 2>&-
-then
-    printf "$GREEN found.$RESET\n"
-else
-    printf "$RED not found. You'll need it to use ack-and-a-half!$RESET\n"
-fi
-
 ### Check emacs version
 if [ $(emacs --version 2>/dev/null | sed -n 's/.*[^0-9.]\([0-9]*\.[0-9.]*\).*/\1/p;q' | sed 's/\..*//g') -lt 24 ]
 then
@@ -196,7 +186,7 @@ then
     tar -cf "$PRELUDE_INSTALL_DIR.pre-prelude.tar" "$PRELUDE_INSTALL_DIR" > /dev/null 2>&1
     PRELUDE_INSTALL_DIR_ORIG="$PRELUDE_INSTALL_DIR"
     # Overwrite existing?
-    [ -n "$PRELUDE_INTO" ] || PRELUDE_INSTALL_DIR="$PRELUDE_INSTALL_DIR/prelude"
+    [ -n "$PRELUDE_INTO" ] && PRELUDE_INSTALL_DIR="$PRELUDE_INSTALL_DIR/prelude"
     # Clear destination directory for git clone to work
     rm -fr "$PRELUDE_INSTALL_DIR"
     mkdir "$PRELUDE_INSTALL_DIR"
@@ -205,7 +195,7 @@ then
     make_prelude_dirs
     # Reinstate files that weren't replaced
     tar --skip-old-files -xf "$PRELUDE_INSTALL_DIR_ORIG.pre-prelude.tar" "$PRELUDE_INSTALL_DIR" > /dev/null 2>&1
-    [ -n "$PRELUDE_INTO" ] || cp "$PRELUDE_INSTALL_DIR/sample/prelude-modules.el" "$PRELUDE_INSTALL_DIR"
+    [ -n "$PRELUDE_INTO" ] && cp "$PRELUDE_INSTALL_DIR/sample/prelude-modules.el" "$PRELUDE_INSTALL_DIR"
 elif [ -e "$PRELUDE_INSTALL_DIR" ]
 then
     # File exist but not a regular file or directory
@@ -223,7 +213,7 @@ fi
 
 if [ -z "$PRELUDE_SKIP_BC" ];
 then
-    if which emacs 2>&1 > /dev/null
+    if which emacs > /dev/null 2>&1
     then
         printf " Bytecompiling Prelude.\n"
         if [ x$PRELUDE_VERBOSE != x ]

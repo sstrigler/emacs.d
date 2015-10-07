@@ -1,6 +1,6 @@
 ;;; prelude-ruby.el --- Emacs Prelude: A nice setup for Ruby (and Rails) devs.
 ;;
-;; Copyright © 2011-2013 Bozhidar Batsov
+;; Copyright © 2011-2015 Bozhidar Batsov
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/prelude
@@ -44,6 +44,7 @@
 (add-to-list 'auto-mode-alist '("Gemfile\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Guardfile\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Capfile\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.cap\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.thor\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rabl\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Thorfile\\'" . ruby-mode))
@@ -53,6 +54,7 @@
 (add-to-list 'auto-mode-alist '("\\.podspec\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Puppetfile\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Berksfile\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Appraisals\\'" . ruby-mode))
 
 ;; We never want to edit Rubinius bytecode
 (add-to-list 'completion-ignored-extensions ".rbc")

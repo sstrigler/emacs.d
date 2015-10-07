@@ -1,8 +1,10 @@
 [![License GPL 3][badge-license]](http://www.gnu.org/licenses/gpl-3.0.txt)
-[![Gittip](http://img.shields.io/gittip/bbatsov.svg)](https://www.gittip.com/bbatsov/)
+[![Gratipay](http://img.shields.io/gratipay/bbatsov.svg)](https://gratipay.com/bbatsov/)
 
 Emacs Prelude
 =============
+
+[![Join the chat at https://gitter.im/bbatsov/prelude](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bbatsov/prelude?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Prelude is an Emacs distribution that aims to enhance the default
 Emacs experience.  Prelude alters a lot of the default settings,
@@ -13,47 +15,48 @@ Emacs power users.
 
 Prelude is compatible **ONLY with GNU Emacs 24.x**. In general you're
 advised to always run Prelude with the latest Emacs - currently
-**24.3**.
+**24.5**.
 
 **Table of Contents**
 
 - [Fast Forward](#fast-forward)
 - [Installing Emacs 24](#installing-emacs-24)
 - [Installation](#installation)
-	- [Automated](#automated)
-		- [Via Curl](#via-curl)
-		- [Via Wget](#via-wget)
-	- [Manual](#manual)
+    - [Automated](#automated)
+        - [Via Curl](#via-curl)
+        - [Via Wget](#via-wget)
+    - [Manual](#manual)
 - [Updating Prelude](#updating-prelude)
-	- [Manual update](#manual-update)
-		- [Update all bundled packages](#update-all-bundled-packages)
-		- [Update Prelude's code](#update-preludes-code)
-		- [Restart Prelude](#restart-prelude)
-	- [Automatic update](#automatic-update)
+    - [Manual update](#manual-update)
+        - [Update all bundled packages](#update-all-bundled-packages)
+        - [Update Prelude's code](#update-preludes-code)
+        - [Restart Prelude](#restart-prelude)
+    - [Automatic update](#automatic-update)
 - [Enabling additional modules](#enabling-additional-modules)
 - [Running](#running)
 - [Getting to know Prelude](#getting-to-know-prelude)
-	- [Keymap](#keymap)
-		- [Global](#global)
-		- [Prelude Mode](#prelude-mode)
-		- [OSX modifier keys](#osx-modifier-keys)
-		- [Projectile](#projectile)
-		- [Key-chords](#key-chords)
-			- [Disabling key-chords](#disabling-key-chords)
+    - [Keymap](#keymap)
+        - [Global](#global)
+        - [Prelude Mode](#prelude-mode)
+        - [OSX modifier keys](#osx-modifier-keys)
+        - [Projectile](#projectile)
+        - [Helm](#helm)
+        - [Key-chords](#key-chords)
+            - [Disabling key-chords](#disabling-key-chords)
 - [Automatic package installation](#automatic-package-installation)
-	- [Color Themes](#color-themes)
-	- [Personalizing](#personalizing)
-		- [Disabling whitespace-mode](#disabling-whitespace-mode)
-		- [Disable flyspell-mode](#disable-flyspell-mode)
+    - [Color Themes](#color-themes)
+    - [Personalizing](#personalizing)
+        - [Disabling whitespace-mode](#disabling-whitespace-mode)
+        - [Disable flyspell-mode](#disable-flyspell-mode)
 - [Caveats & Pitfalls](#caveats--pitfalls)
-	- [Updating bundled packages](#updating-bundled-packages)
-	- [Problems with flyspell-mode](#problems-with-flyspell-mode)
-	- [Ugly colors in the terminal Emacs version](#ugly-colors-in-the-terminal-emacs-version)
-	- [MELPA error on initial startup](#melpa-error-on-initial-startup)
-	- [No arrow navigation in editor buffers](#no-arrow-navigation-in-editor-buffers)
-	- [Customized C-a behavior](#customized-c-a-behavior)
-	- [Poor ido matching performance on large datasets](#poor-ido-matching-performance-on-large-datasets)
-	- [Windows compatibility](#windows-compatibility)
+    - [Updating bundled packages](#updating-bundled-packages)
+    - [Problems with flyspell-mode](#problems-with-flyspell-mode)
+    - [Ugly colors in the terminal Emacs version](#ugly-colors-in-the-terminal-emacs-version)
+    - [MELPA error on initial startup](#melpa-error-on-initial-startup)
+    - [Warnings on arrow navigation in editor buffers](#warnings-on-navigation-in-editor-buffers)
+    - [Customized C-a behavior](#customized-c-a-behavior)
+    - [Poor ido matching performance on large datasets](#poor-ido-matching-performance-on-large-datasets)
+    - [Windows compatibility](#windows-compatibility)
 - [Known issues](#known-issues)
 - [Support](#support)
 - [Contributors](#contributors)
@@ -67,7 +70,7 @@ can skip the whole manual and just type in your favorite shell the
 following command:
 
 ```bash
-curl -L http://git.io/epre | sh
+curl -L https://git.io/epre | sh
 ```
 
 You can now power up your Emacs, sit back and enjoy Prelude,
@@ -131,9 +134,7 @@ ln -s path/to/local/repo ~/.emacs.d
 cd ~/.emacs.d
 ```
 
-You'd do well to replace `~/.emacs.d` with the value of
-`user-emacs-directory` for your OS. You can check the value by doing
-`C-h v user-emacs-directory` inside Emacs.
+If you are using Windows, you should check what Emacs thinks the `~` directory is by running Emacs and typing `C-x d ~/<RET>`, and then adjust the command appropriately.
 
 ## Updating Prelude
 
@@ -180,6 +181,7 @@ By default most of the modules that ship with Prelude are not loaded. For more i
 (require 'prelude-emacs-lisp)
 (require 'prelude-erc)
 ;; (require 'prelude-erlang)
+;; (require 'prelude-elixir)
 ;; (require 'prelude-haskell)
 (require 'prelude-js)
 ;; (require 'prelude-latex)
@@ -235,6 +237,14 @@ alias vi='emacsclient -t'
 The last two aliases are helpful if you're used to editing files from
 the command line using `vi(m)`.
 
+Also you can open a file with cursor on choosen line:
+
+```bash
+emacsclient somefile:1234
+```
+
+This will open file 'somefile' and set cursor on line 1234.
+
 ## Getting to know Prelude
 
 Certainly the best way to understand how Prelude enhances the default
@@ -251,7 +261,6 @@ extensions to keybindings.
 
 Keybinding         | Description
 -------------------|------------------------------------------------------------
-<kbd>C-M-h</kbd>   | Kill the previous word(`backward-kill-word`). (as in Bash/Zsh)
 <kbd>C-x \\</kbd>   | `align-regexp`
 <kbd>C-+</kbd>     | Increase font size(`text-scale-increase`).
 <kbd>C--</kbd>     | Decrease font size(`text-scale-decrease`).
@@ -261,6 +270,7 @@ Keybinding         | Description
 <kbd>C-x m</kbd>   | Start `eshell`.
 <kbd>C-x M-m</kbd> | Start your default shell.
 <kbd>C-x C-m</kbd> | Alias for `M-x`.
+<kbd>M-X</kbd>     | Like `M-x` but limited to commands that are relevant to the active major mode.
 <kbd>C-h A</kbd>   | Run `apropos` (search in all Emacs symbols).
 <kbd>C-h C-m</kbd> | Display key bindings of current major mode and descriptions of every binding.
 <kbd>M-/</kbd>     | Run `hippie-expand` (a replacement for the default `dabbrev-expand`).
@@ -268,6 +278,8 @@ Keybinding         | Description
 <kbd>F11</kbd>     | Make the window full screen.
 <kbd>F12</kbd>     | Toggle the Emacs menu bar.
 <kbd>C-x g</kbd>   | Open Magit's status buffer.
+<kbd>C-x M-g</kbd> | Open Magit's popup of popups.
+<kbd>M-Z</kbd>     | Zap up to char.
 <kbd>C-=</kbd>     | Run `expand-region` (incremental text selection).
 <kbd>C-a</kbd>     | Run `prelude-move-beginning-of-line`. Read [this](http://emacsredux.com/blog/2013/05/22/smarter-navigation-to-the-beginning-of-a-line/) for details.
 
@@ -288,7 +300,7 @@ Keybinding         | Description
 <kbd>C-c n</kbd> | Fix indentation in buffer and strip whitespace.
 <kbd>C-c f</kbd> | Open recently visited file.
 <kbd>C-M-\\</kbd> | Indent region (if selected) or the entire buffer.
-<kbd>C-c u</kbd> | Open URL in your default browser.
+<kbd>C-c u</kbd> | Open a new buffer containing the contents of URL.
 <kbd>C-c e</kbd> | Eval a bit of Emacs Lisp code and replace it with its result.
 <kbd>C-c s</kbd> | Swap two active windows.
 <kbd>C-c D</kbd> | Delete current file and buffer.
@@ -298,22 +310,21 @@ Keybinding         | Description
 <kbd>C-c t</kbd> | Open a terminal emulator (`ansi-term`).
 <kbd>C-c k</kbd> | Kill all open buffers except the one you're currently in.
 <kbd>C-c TAB</kbd> | Indent and copy region to clipboard
-<kbd>C-c h</kbd> | Open Helm (available if you've enabled the `prelude-helm` module).
 <kbd>C-c I</kbd> | Open user's init file.
 <kbd>C-c S</kbd> | Open shell's init file.
 <kbd>C-c . +</kbd> | Increment integer at point. Default is +1.
 <kbd>C-c . -</kbd> | Decrement integer at point. Default is -1.
 <kbd>C-c . *</kbd> | Multiply integer at point. Default is *2.
 <kbd>C-c . /</kbd> | Divide integer at point. Default is /2.
-<kbd>C-c . \</kbd> | Modulo integer at point. Default is modulo 2.
+<kbd>C-c . \\</kbd> | Modulo integer at point. Default is modulo 2.
 <kbd>C-c . ^</kbd> | Power to the integer at point. Default is ^2.
 <kbd>C-c . <</kbd> | Left-shift integer at point. Default is 1 position to the left.
 <kbd>C-c . ></kbd> | Right-shift integer at point. Default is 1 position to the right.
 <kbd>C-c . #</kbd> | Convert integer at point to specified base. Default is 10.
 <kbd>C-c . %</kbd> | Replace integer at point with another specified integer.
 <kbd>C-c . '</kbd> | Perform arithmetic operations on integer at point. User specifies the operator.
+<kbd>Super-g</kbd> | Toggle between God mode and non-God mode
 <kbd>Super-r</kbd> | Recent files
-<kbd>Super-x</kbd> | Expand region
 <kbd>Super-j</kbd> | Join lines
 <kbd>Super-k</kbd> | Kill whole line
 <kbd>Super-m m</kbd> | Magit status
@@ -346,7 +357,8 @@ Keybinding         | Description
 <kbd>C-c p f</kbd> | Display a list of all files in the project. With a prefix argument it will clear the cache first.
 <kbd>C-c p d</kbd> | Display a list of all directories in the project. With a prefix argument it will clear the cache first.
 <kbd>C-c p T</kbd> | Display a list of all test files(specs, features, etc) in the project.
-<kbd>C-c p g</kbd> | Run grep on the files in the project.
+<kbd>C-c p s g</kbd> | Run grep on the files in the project.
+<kbd>M-- C-c p s g</kbd> | Run grep on `projectile-grep-default-files` in the project.
 <kbd>C-c p b</kbd> | Display a list of all project buffers currently open.
 <kbd>C-c p o</kbd> | Runs `multi-occur` on all project buffers currently open.
 <kbd>C-c p r</kbd> | Runs interactive query-replace on all files in the projects.
@@ -355,24 +367,61 @@ Keybinding         | Description
 <kbd>C-c p k</kbd> | Kills all project buffers.
 <kbd>C-c p D</kbd> | Opens the root of the project in `dired`.
 <kbd>C-c p e</kbd> | Shows a list of recently visited project files.
+<kbd>C-c p s a</kbd> | Runs `ack` on the project. Requires the presence of `ack-and-a-half`.
+<kbd>C-c p s s</kbd> | Runs `ag` on the project. Requires the presence of `ag.el`.
 <kbd>C-c p a</kbd> | Runs `ack` on the project. Requires the presence of `ack-and-a-half`.
 <kbd>C-c p c</kbd> | Runs a standard compilation command for your type of project.
-<kbd>C-c p p</kbd> | Runs a standard test command for your type of project.
+<kbd>C-c p P</kbd> | Runs a standard test command for your type of project.
 <kbd>C-c p z</kbd> | Adds the currently visited to the cache.
-<kbd>C-c p s</kbd> | Display a list of known projects you can switch to.
+<kbd>C-c p p</kbd> | Display a list of known projects you can switch to.
 
-Prelude adds some extra keybindings:
-
-Keybinding         | Command
--------------------|------------------------------------------------------------
-<kbd>Super-f</kbd> | Find file in project
-<kbd>Super-d</kbd> | Find directory in project
-<kbd>Super-g</kbd> | Run grep on project
-<kbd>Super-p</kbd> | Switch projects
+Prelude adds an extra keymap prefix `S-p` (`S` stands for
+`Super`), so you can use `S-p` instead of `C-c p`.
 
 If you ever forget any of Projectile's keybindings just do a:
 
 <kbd>C-c p C-h</kbd>
+
+#### Helm
+
+Helm is setup according to this guide: [A Package in a league of its own: Helm](http://tuhdo.github.io/helm-intro.html).
+
+You can learn Helm usage and key bindings following the guide. <kbd>C-c h</kbd> is Prelude's default prefix key for Helm.
+If you don't remember any key binding, append <kbd>C-h</kbd> after <kbd>C-c h</kbd> for a list of key bindings in Helm.
+
+If you love Helm and want to use Helm globally with enhanced `helm-find-files`, `helm-buffer-lists`..., you will have to also add `(require 'prelude-helm-everywhere)`.
+When `prelude-helm-everywhere` is activated, Helm enables these global key bindings:
+
+Key binding        | Description
+-------------------|----------------------------------------------
+<kbd>M-x</kbd>     | Run [helm-M-x](http://tuhdo.github.io/helm-intro.html#sec-3), an interactive version of <kbd>M-x</kdb>.
+<kbd>M-y</kbd>     | Run [helm-show-kill-ring](http://tuhdo.github.io/helm-intro.html#sec-4), shows the content of `kill-ring`.
+<kbd>C-x b </kbd>  | Run [helm-mini](http://tuhdo.github.io/helm-intro.html#sec-5), an interactive version of `C-x b` with more features.
+<kbd>C-x C-f</kbd> | Run [helm-find-files](http://tuhdo.github.io/helm-intro.html#sec-6), an interactive version of `find-file` with more features.
+<kbd>C-h f </kbd>  | Run [helm-apropos](http://tuhdo.github.io/helm-intro.html#sec-13), an interactive version of `apropos-command`.
+<kbd>C-h r</kbd>   | Run [helm-info-emacs](http://tuhdo.github.io/helm-intro.html#sec-14), an interactive version of `info-emacs-manual`.
+<kbd>C-h C-l </kbd>| Run `helm-locate-library` that can search for locations of any file loaded into Emacs.
+
+This key binding is activated in `shell-mode`:
+
+Key Binding        | Description
+-------------------|----------------------------------------------
+<kbd>C-c C-l</kbd>     | Run `helm-comint-input-ring` that shows `shell` history using Helm interface.
+
+This key bindings is activated in `eshell-mode`:
+
+Key Binding        | Description
+-------------------|----------------------------------------------
+<kbd>C-c C-l</kbd>     | Run `helm-eshell-history` that shows `eshell` history using Helm interface.
+
+If you prefer Ido in everywhere, you should not add `prelude-helm-everywhere`, so you can use Helm along with Ido and Prelude's default commands.
+
+You can always reactivate Helm with `(prelude-global-helm-global-mode-on)`.
+
+**NOTICE**: In `helm-M-x`, you have to pass prefix argument *AFTER* you run `helm-M-x`,
+because your prefix argument will be displayed in the modeline when in `helm-M-x`
+buffer. Passing prefix argument **BEFORE** =helm-M-x= **has no effect**.
+
 
 #### Key-chords
 
@@ -380,9 +429,9 @@ If you ever forget any of Projectile's keybindings just do a:
 
 Keybinding         | Description
 -------------------|----------------------------------------------
-<kbd>jj</kbd>      | Jump to the beginning of a word(`ace-jump-word-mode`)
-<kbd>jk</kbd>      | Jump to a character(`ace-jump-char-mode`)
-<kbd>jl</kbd>      | Jump to the beginning of a line(`ace-jump-line-mode`)
+<kbd>jj</kbd>      | Jump to the beginning of a word(`avy-goto-word-1`)
+<kbd>jk</kbd>      | Jump to a character(`avy-goto-char`)
+<kbd>jl</kbd>      | Jump to the beginning of a line(`avy-goto-line`)
 <kbd>JJ</kbd>      | Jump back to previous buffer(`prelude-switch-to-previous-buffer`)
 <kbd>uu</kbd>      | View edits as a tree(`undo-tree-visualize`)
 <kbd>xx</kbd>      | Executed extended command(`execute-extended-command`)
@@ -441,15 +490,22 @@ line:
 (disable-theme 'zenburn)
 ```
 
-Or you can use another theme altogether by adding something like:
+Or you can use another theme altogether by adding something in `personal/preload` like:
 
 ```lisp
-(load-theme 'solarized-dark t)
+(setq prelude-theme 'solarized-dark)
 ```
 
 **P.S.** Solarized is not available by default - you'll have to
   install it from MELPA first (`M-x package-install RET
   solarized-theme`).
+
+Finally, if you don't want any theme at all, you can add this to your
+`personal/preload`:
+
+```lisp
+(setq prelude-theme nil)
+```
 
 ### Personalizing
 
@@ -553,19 +609,17 @@ If you get some http connection error related to the MELPA repo
 just do a manual `M-x package-refresh-contents` and restart Emacs
 afterwards.
 
-### No arrow navigation in editor buffers
+### Warnings on arrow navigation in editor buffers
 
 This is not a bug - it's a feature! I firmly believe that the one true
 way to use Emacs is by using it the way it was intended to be used (as
-far as navigation is concerned at least). That's why I've disabled all
-movement commands with arrows (and keys like page up, page down,
-etc) - to prevent you from being tempted to use them.
+far as navigation is concerned at least).
 
-If you'd like to be able to use the arrow keys (but still be reminded of
-the alternatives) put this in your personal config:
+If you'd like to be take this a step further and disable the arrow key navigation
+completely put this in your personal config:
 
 ```lisp
-(setq guru-warn-only t)
+(setq guru-warn-only nil)
 ```
 
 To disable `guru-mode` completely add the following snippet to your
@@ -593,11 +647,11 @@ Prelude swaps the default `ido` flex matching with the more powerful
 
 The sorting algorithm `flx` uses is more complex, but yields better results.
 
-On slower machines, it may be necessary to lower `flx-ido-threshhold` to
+On slower machines, it may be necessary to lower `flx-ido-threshold` to
 ensure a smooth experience.
 
 ```lisp
-(setq flx-ido-threshhold 1000)
+(setq flx-ido-threshold 1000)
 ```
 
 You can always disable the improved sorting algorithm all together like this:

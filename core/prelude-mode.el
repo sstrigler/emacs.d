@@ -1,6 +1,6 @@
 ;;; prelude-mode.el --- Emacs Prelude: minor mode
 ;;
-;; Copyright © 2011-2013 Bozhidar Batsov
+;; Copyright © 2011-2015 Bozhidar Batsov
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: https://github.com/bbatsov/prelude
@@ -50,7 +50,6 @@
     (define-key map [(meta shift down)]  'move-text-down)
     (define-key map (kbd "C-c n") 'prelude-cleanup-buffer-or-region)
     (define-key map (kbd "C-c f")  'prelude-recentf-ido-find-file)
-    (define-key map (kbd "C-M-\\") 'prelude-indent-buffer-or-region)
     (define-key map (kbd "C-M-z") 'prelude-indent-defun)
     (define-key map (kbd "C-c u") 'prelude-view-url)
     (define-key map (kbd "C-c e") 'prelude-eval-and-replace)
@@ -64,19 +63,18 @@
     (define-key map (kbd "C-c TAB") 'prelude-indent-rigidly-and-copy-to-clipboard)
     (define-key map (kbd "C-c I") 'prelude-find-user-init-file)
     (define-key map (kbd "C-c S") 'prelude-find-shell-init-file)
+    (define-key map (kbd "C-c i") 'prelude-goto-symbol)
+    ;; extra prefix for projectile
+    (define-key map (kbd "s-p") 'projectile-command-map)
     ;; make some use of the Super key
-    (define-key map [?\s-d] 'projectile-find-dir)
-    (define-key map [?\s-p] 'projectile-switch-project)
-    (define-key map [?\s-f] 'projectile-find-file)
-    (define-key map [?\s-g] 'projectile-grep)
-
+    (define-key map (kbd "s-g") 'god-local-mode)
     (define-key map (kbd "s-r") 'prelude-recentf-ido-find-file)
     (define-key map (kbd "s-j") 'prelude-top-join-line)
     (define-key map (kbd "s-k") 'prelude-kill-whole-line)
     (define-key map (kbd "s-m m") 'magit-status)
     (define-key map (kbd "s-m l") 'magit-log)
-    (define-key map (kbd "s-m f") 'magit-file-log)
-    (define-key map (kbd "s-m b") 'magit-blame-mode)
+    (define-key map (kbd "s-m f") 'magit-log-buffer-file)
+    (define-key map (kbd "s-m b") 'magit-blame)
     (define-key map (kbd "s-o") 'prelude-smart-open-line-above)
 
     map)
@@ -89,11 +87,9 @@
                         ("Files"
                          ["Open with..." prelude-open-with]
                          ["Delete file and buffer" prelude-delete-file-and-buffer]
-                         ["Rename buffer and file" prelude-rename-buffer-and-file]
-                         ["Copy file name to clipboard" prelude-copy-file-name-to-clipboard])
+                         ["Rename buffer and file" prelude-rename-buffer-and-file])
 
                         ("Buffers"
-                         ["Clean up buffer" prelude-cleanup-buffer]
                          ["Clean up buffer or region" prelude-cleanup-buffer-or-region]
                          ["Kill other buffers" prelude-kill-other-buffers])
 
@@ -101,10 +97,6 @@
                          ["Insert empty line" prelude-insert-empty-line]
                          ["Move line up" prelude-move-line-up]
                          ["Move line down" prelude-move-line-down]
-                         ["Indent buffer" prelude-indent-buffer]
-                         ["Indent buffer or region" prelude-indent-buffer-or-region]
-                         ["Untabify buffer" prelude-untabify-buffer]
-                         ["Untabify buffer or region" prelude-untabify-buffer-or-region]
                          ["Duplicate line or region" prelude-duplicate-current-line-or-region]
                          ["Indent rigidly and copy to clipboard" prelude-indent-rigidly-and-copy-to-clipboard]
                          ["Insert date" prelude-insert-date]

@@ -1,6 +1,6 @@
 ;;; prelude-css.el --- Emacs Prelude: css support
 ;;
-;; Copyright © 2011-2013 Bozhidar Batsov
+;; Copyright © 2011-2015 Bozhidar Batsov
 ;;
 ;; Author: Bozhidar Batsov <bozhidar@batsov.com>
 ;; URL: http://www.batsov.com/emacs-prelude
@@ -36,8 +36,9 @@
   '(progn
      (prelude-require-packages '(rainbow-mode))
 
+     (setq css-indent-offset 2)
+
      (defun prelude-css-mode-defaults ()
-       (setq css-indent-offset 2)
        (rainbow-mode +1)
        (run-hooks 'prelude-prog-mode-hook))
 

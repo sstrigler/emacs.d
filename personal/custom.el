@@ -29,6 +29,8 @@
 
 (setq prelude-flyspell nil)
 
+(setq magit-push-always-verify nil)
+
 ;; Erlang
 ;; (add-to-list 'load-path "/usr/local/lib/erlang/lib/tools-2.6.8/emacs")
 (setq erlang-root-dir "/usr/local/share")
@@ -64,7 +66,7 @@
 ;;(set-face-attribute 'default nil :height 100)
 
 
-(setq erlang-indent-level 2)
+(setq erlang-indent-level 4)
 
 
 (custom-set-variables
@@ -77,10 +79,16 @@
  '(cua-mode t nil (cua-base))
  '(edts-man-root "/Users/sstrigler/.emacs.d/edts/doc/17.3")
  '(indent-tabs-mode nil)
+ '(jabber-account-list (quote (("zeank@jwchat.org" (:password . "tltuae18")))))
+ '(jabber-alert-presence-hooks nil)
+ '(jabber-auto-reconnect t)
+ '(jabber-mode-line-mode t)
  '(menu-bar-mode nil)
  '(show-paren-mode t)
  '(size-indication-mode t)
- '(speedbar-supported-extension-expressions (quote (".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java" ".js" ".f\\(90\\|77\\|or\\)?" ".ad[abs]" ".p[lm]" ".tcl" ".m" ".scm" ".pm" ".py" ".g" ".s?html" ".ma?k" "[Mm]akefile\\(\\.in\\)?" ".[eh]rl" "css" "json" "xml" "jade" "config" "txt" "cfg" "")))
+ '(speedbar-supported-extension-expressions
+   (quote
+    (".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?" ".tex\\(i\\(nfo\\)?\\)?" ".el" ".emacs" ".l" ".lsp" ".p" ".java" ".js" ".f\\(90\\|77\\|or\\)?" ".ad[abs]" ".p[lm]" ".tcl" ".m" ".scm" ".pm" ".py" ".g" ".s?html" ".ma?k" "[Mm]akefile\\(\\.in\\)?" ".[eh]rl" "css" "json" "xml" "jade" "config" "txt" "cfg" "")))
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

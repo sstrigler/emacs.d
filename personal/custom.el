@@ -33,18 +33,18 @@
 
 ;; Erlang
 ;; (add-to-list 'load-path "/usr/local/lib/erlang/lib/tools-2.6.8/emacs")
-(setq erlang-root-dir "/usr/local/share")
-(setq exec-path (cons "/usr/local/bin" exec-path))
-(require 'erlang-start)
-(require 'erlang-eunit)
+;(setq erlang-root-dir "/usr/local/share")
+;(setq exec-path (cons "/usr/local/bin" exec-path))
+;(require 'erlang-start)
+;(require 'erlang-eunit)
 
 ;; Some Erlang customizations
-(add-hook 'erlang-mode-hook
-          (lambda ()
+;(add-hook 'erlang-mode-hook
+;          (lambda ()
             ;; when starting an Erlang shell in Emacs, default in the node name
-            (setq inferior-erlang-machine-options '("-sname" "emacs"))
+;            (setq inferior-erlang-machine-options '("-sname" "emacs"))
             ;; add Erlang functions to an imenu menu
-            (imenu-add-to-menubar "imenu")))
+;            (imenu-add-to-menubar "imenu")))
 
 ;; EDTS
 ;; https://github.com/tjarvstrand/edts
@@ -65,9 +65,7 @@
 
 ;;(set-face-attribute 'default nil :height 100)
 
-
 (setq erlang-indent-level 4)
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -77,7 +75,7 @@
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(cua-mode t nil (cua-base))
- '(edts-man-root "/Users/sstrigler/.emacs.d/edts/doc/17.3")
+ '(edts-man-root "/Users/sstrigler/.emacs.d/edts/doc/18.1")
  '(indent-tabs-mode nil)
  '(jabber-account-list (quote (("zeank@jwchat.org"))))
  '(jabber-alert-presence-hooks nil)

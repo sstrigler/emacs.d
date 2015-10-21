@@ -11,12 +11,12 @@
 ;; (global-whitespace-mode t)
 
 ;; Show line at 80 char
-;; (require 'fill-column-indicator)
-;; (setq-default fill-column 80)
-;; (setq-default fci-rule-width 1)
-;;(setq-default fci-rule-color "#686868")
-;;(add-hook 'erlang-mode-hook 'fci-mode)
-;;(fci-mode)
+(require 'fill-column-indicator)
+(setq-default fill-column 80)
+(setq-default fci-rule-width 1)
+(setq-default fci-rule-color "#686868")
+(add-hook 'erlang-mode-hook 'fci-mode)
+(fci-mode)
 
 ;; dirty fix for having AC everywhere
 ;;(define-globalized-minor-mode real-global-auto-complete-mode
@@ -31,20 +31,14 @@
 
 (setq magit-push-always-verify nil)
 
+(global-flycheck-mode -1)
+
 ;; Erlang
 ;; (add-to-list 'load-path "/usr/local/lib/erlang/lib/tools-2.6.8/emacs")
 ;(setq erlang-root-dir "/usr/local/share")
 ;(setq exec-path (cons "/usr/local/bin" exec-path))
 ;(require 'erlang-start)
 ;(require 'erlang-eunit)
-
-;; Some Erlang customizations
-;(add-hook 'erlang-mode-hook
-;          (lambda ()
-            ;; when starting an Erlang shell in Emacs, default in the node name
-;            (setq inferior-erlang-machine-options '("-sname" "emacs"))
-            ;; add Erlang functions to an imenu menu
-;            (imenu-add-to-menubar "imenu")))
 
 ;; EDTS
 ;; https://github.com/tjarvstrand/edts

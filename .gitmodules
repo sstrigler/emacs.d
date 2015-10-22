@@ -1,9 +1,0 @@
-[submodule "vendor/flymake-node-jshint"]
-	path = vendor/flymake-node-jshint
-	url = https://github.com/jegbjerg/flymake-node-jshint.git
-[submodule "vendor/edts"]
-	path = vendor/edts
-	url = git://github.com/tjarvstrand/edts.git
-[submodule "vendor/jade-mode"]
-	path = vendor/jade-mode
-	url = git@github.com:brianc/jade-mode.git

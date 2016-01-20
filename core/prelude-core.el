@@ -315,8 +315,7 @@ buffer is not visiting a file."
 
 (defun prelude-reopen-as-root ()
   "Find file as root if necessary."
-  (unless (or (tramp-tramp-file-p buffer-file-name)
-              (equal major-mode 'dired-mode)
+  (unless (or (equal major-mode 'dired-mode)
               (not (file-exists-p (file-name-directory buffer-file-name)))
               (file-writable-p buffer-file-name)
               (prelude-file-owned-by-user-p buffer-file-name))

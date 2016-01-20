@@ -32,6 +32,10 @@
 (setq magit-push-always-verify nil)
 
 (global-flycheck-mode -1)
+(setq tramp-use-ssh-controlmaster-options "")
+
+(require 'magit-gitflow)
+(add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
 
 ;; Erlang
 ;; (add-to-list 'load-path "/usr/local/lib/erlang/lib/tools-2.6.8/emacs")
@@ -47,7 +51,7 @@
 
 (add-hook 'after-init-hook 'edts-after-init-hook)
 (defun edts-after-init-hook ()
-   (require 'edts-start))
+  (require 'edts-start))
 
 (setq mac-option-key-is-meta nil)
 (setq mac-command-key-is-meta t)
@@ -69,7 +73,7 @@
  '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(cua-mode t nil (cua-base))
- '(edts-man-root "/Users/sstrigler/.emacs.d/edts/doc/18.1")
+ '(edts-man-root "/home/stefan/.emacs.d/edts/doc/18.1")
  '(indent-tabs-mode nil)
  '(jabber-account-list (quote (("zeank@jwchat.org"))))
  '(jabber-alert-presence-hooks nil)

@@ -1,0 +1,30 @@
+diff --git a/core/prelude-core.el b/core/prelude-core.el
+index 1051236..25741a9 100644
+--- a/core/prelude-core.el
++++ b/core/prelude-core.el
+@@ -315,8 +315,7 @@ buffer is not visiting a file."
+ 
+ (defun prelude-reopen-as-root ()
+   "Find file as root if necessary."
+-  (unless (or (tramp-tramp-file-p buffer-file-name)
+-              (equal major-mode 'dired-mode)
++  (unless (or (equal major-mode 'dired-mode)
+               (not (file-exists-p (file-name-directory buffer-file-name)))
+               (file-writable-p buffer-file-name)
+               (prelude-file-owned-by-user-p buffer-file-name))
+diff --git a/core/prelude-editor.el b/core/prelude-editor.el
+index e15b1c2..28a22c0 100644
+--- a/core/prelude-editor.el
++++ b/core/prelude-editor.el
+@@ -203,9 +203,9 @@ The body of the advice is in BODY."
+            (line-beginning-position 2)))))
+ 
+ ;; tramp, for sudo access
+-(require 'tramp)
++;;(require 'tramp)
+ ;; keep in mind known issues with zsh - see emacs wiki
+-(setq tramp-default-method "ssh")
++;;(setq tramp-default-method "ssh")
+ 
+ (set-default 'imenu-auto-rescan t)
+ 

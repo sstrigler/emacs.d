@@ -18,6 +18,17 @@
 (add-hook 'erlang-mode-hook 'fci-mode)
 (fci-mode)
 
+;; delete line does not affect the kill ring
+;; taken from https://github.com/haspok/.emacs.d/blob/master/modules/keys.el
+(defun delete-line ()
+  (interactive)
+  (delete-region
+   (progn (beginning-of-line 1) (point))
+   (progn (end-of-line 1) (point)))
+  (delete-char 1))
+
+(global-set-key (kbd "<C-S-backspace>") 'delete-line)
+
 ;; dirty fix for having AC everywhere
 ;;(define-globalized-minor-mode real-global-auto-complete-mode
 ;; auto-complete-mode (lambda ()

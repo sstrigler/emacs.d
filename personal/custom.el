@@ -18,6 +18,17 @@
 ;(add-hook 'erlang-mode-hook 'fci-mode)
 ;(fci-mode)
 
+;; delete line does not affect the kill ring
+;; taken from https://github.com/haspok/.emacs.d/blob/master/modules/keys.el
+(defun delete-line ()
+  (interactive)
+  (delete-region
+   (progn (beginning-of-line 1) (point))
+   (progn (end-of-line 1) (point)))
+  (delete-char 1))
+
+(global-set-key (kbd "<C-S-backspace>") 'delete-line)
+
 ;; dirty fix for having AC everywhere
 ;;(define-globalized-minor-mode real-global-auto-complete-mode
 ;; auto-complete-mode (lambda ()
@@ -32,6 +43,10 @@
 (setq magit-push-always-verify nil)
 
 (global-flycheck-mode -1)
+(setq tramp-use-ssh-controlmaster-options "")
+
+(require 'magit-gitflow)
+(add-hook 'magit-mode-hook 'turn-on-magit-gitflow)
 
 ;; Erlang
 ;; (add-to-list 'load-path "/usr/local/lib/erlang/lib/tools-2.6.8/emacs")
@@ -47,16 +62,16 @@
 
 (add-hook 'after-init-hook 'edts-after-init-hook)
 (defun edts-after-init-hook ()
-   (require 'edts-start))
+  (require 'edts-start))
 
 (setq mac-option-key-is-meta nil)
 (setq mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier nil)
 
-(add-to-list 'load-path
-             "/usr/local/lib/erlang/lib/wrangler-1.2.0/elisp")
-(require 'wrangler)
+;; (add-to-list 'load-path
+;;              "/usr/local/lib/erlang/lib/wrangler-1.2.0/elisp")
+;; (require 'wrangler)
 
 ;; (setq split-height-threshold nil)
 ;; (setq split-width-threshold 0)

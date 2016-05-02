@@ -80,6 +80,8 @@
 
 (setq erlang-indent-level 4)
 
+(set-face-attribute 'default nil :height 140)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -100,6 +102,7 @@
  '(jabber-alert-presence-hooks nil)
  '(jabber-auto-reconnect t)
  '(jabber-mode-line-mode t)
+ '(markdown-command "marked")
  '(menu-bar-mode nil)
  '(nrepl-message-colors
    (quote

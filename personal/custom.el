@@ -6,10 +6,10 @@
 ;;   (guru-mode -1))
 ;; (add-hook 'prelude-prog-mode-hook 'disable-guru-mode t)
 
-(setq whitespace-style '(face empty tabs lines-tail trailing))
-(setq whitespace-line-column 100)
-
 ;;(setq whitespace-style '(tabs trailing tab-mark))
+(setq whitespace-line-column 120) ;; limit line length
+;;(setq whitespace-style '(face lines-tail))
+(setq whitespace-style '(face empty tabs lines-tail trailing))
 
 ;; delete line does not affect the kill ring
 ;; taken from https://github.com/haspok/.emacs.d/blob/master/modules/keys.el
@@ -33,6 +33,7 @@
 
 (setq prelude-flyspell nil)
 
+(setq magit-popup-use-prefix-argument 'default)
 (setq magit-push-always-verify nil)
 
 (global-flycheck-mode -1)
@@ -64,8 +65,6 @@
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier nil)
 
-(setq js-indent-level 2)
-
 ;; (add-to-list 'load-path
 ;;              "/usr/local/lib/erlang/lib/wrangler-1.2.0/elisp")
 ;; (require 'wrangler)
@@ -75,7 +74,10 @@
 
 (set-face-attribute 'default nil :height 120)
 
+(setq js-indent-level 2)
 (setq erlang-indent-level 4)
+
+(setq menu-bar-mode nil)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -84,6 +86,8 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
+ '(blink-cursor-mode nil)
+ '(browse-url-browser-function (quote browse-url-default-macosx-browser))
  '(column-number-mode t)
  '(cua-mode t nil (cua-base))
  '(custom-safe-themes
@@ -95,6 +99,10 @@
  '(jabber-alert-presence-hooks nil)
  '(jabber-auto-reconnect t)
  '(jabber-mode-line-mode t)
+ '(js3-auto-indent-p t)
+ '(js3-enter-indents-newline t)
+ '(js3-indent-level 2)
+ '(js3-indent-on-enter-key t)
  '(markdown-command "marked")
  '(menu-bar-mode nil)
  '(nrepl-message-colors
@@ -103,7 +111,7 @@
  '(package-selected-packages
    (quote
     (editorconfig vue-mode php-mode edts zop-to-char zenburn-theme yaml-mode volatile-highlights vkill undo-tree smartrep smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile ov operate-on-number move-text markdown-mode magit json-mode js2-mode guru-mode grizzl god-mode gitignore-mode gitconfig-mode git-timemachine gist geiser flycheck expand-region exec-path-from-shell elisp-slime-nav easy-kill dockerfile-mode discover-my-major diminish diff-hl csv-mode browse-kill-ring anzu anaconda-mode ace-window)))
- '(show-paren-mode t)
+'(show-paren-mode t)
  '(size-indication-mode t)
  '(speedbar-supported-extension-expressions
    (quote

@@ -34,7 +34,7 @@
    (progn (end-of-line 1) (point)))
   (delete-char 1))
 
-(global-set-key (kbd "<C-S-backspace>") 'delete-line)
+(global-set-key (kbd "<C-s-backspace>") 'delete-line)
 
 ;; dirty fix for having AC everywhere
 ;;(define-globalized-minor-mode real-global-auto-complete-mode
@@ -76,10 +76,10 @@
 (defun edts-after-init-hook ()
   (require 'edts-start))
 
-(setq mac-option-key-is-meta nil)
-(setq mac-command-key-is-meta t)
-(setq mac-command-modifier 'meta)
-(setq mac-option-modifier nil)
+(setq mac-option-key-is-meta nil
+      mac-command-key-is-meta t
+      mac-command-modifier 'meta
+      mac-option-modifier 'super)
 
 ;; (add-to-list 'load-path
 ;;              "/usr/local/lib/erlang/lib/wrangler-1.2.0/elisp")

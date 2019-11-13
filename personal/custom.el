@@ -6,10 +6,24 @@
 ;;   (guru-mode -1))
 ;; (add-hook 'prelude-prog-mode-hook 'disable-guru-mode t)
 
+
+(require 'whitespace)
+(global-whitespace-mode t)
+(setq whitespace-global-modes '(erlang-mode))
+
+;; (require 'fill-column-indicator)
+;; (setq-default fill-column 100)
+;; (setq-default fci-rule-width 1)
+;; (setq-default fci-rule-color "#686868")
+;; (add-hook 'erlang-mode-hook 'fci-mode)
+;; (fci-mode)
+
 ;;(setq whitespace-style '(tabs trailing tab-mark))
 (setq whitespace-line-column 100) ;; limit line length
 ;;(setq whitespace-style '(face lines-tail))
 (setq whitespace-style '(face empty tabs lines-tail trailing))
+
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;; delete line does not affect the kill ring
 ;; taken from https://github.com/haspok/.emacs.d/blob/master/modules/keys.el
@@ -130,7 +144,7 @@
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (editorconfig vue-mode php-mode zop-to-char zenburn-theme yaml-mode volatile-highlights vkill undo-tree smartrep smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile ov operate-on-number move-text markdown-mode magit json-mode js2-mode guru-mode grizzl god-mode gitignore-mode gitconfig-mode git-timemachine gist geiser flycheck expand-region exec-path-from-shell elisp-slime-nav easy-kill dockerfile-mode discover-my-major diminish diff-hl csv-mode browse-kill-ring anzu anaconda-mode ace-window)))
+    (fill-column-indicator lsp-ui company-lsp company counsel swiper ivy avy dash erlang helm hl-todo with-editor editorconfig vue-mode php-mode zop-to-char zenburn-theme yaml-mode volatile-highlights vkill undo-tree smartrep smartparens smart-mode-line rainbow-mode rainbow-delimiters projectile ov operate-on-number move-text markdown-mode magit json-mode js2-mode guru-mode grizzl god-mode gitignore-mode gitconfig-mode git-timemachine gist geiser flycheck expand-region exec-path-from-shell elisp-slime-nav easy-kill dockerfile-mode discover-my-major diminish diff-hl csv-mode browse-kill-ring anzu anaconda-mode ace-window)))
  '(show-paren-mode t)
  '(size-indication-mode t)
  '(speedbar-supported-extension-expressions
